@@ -52,7 +52,7 @@ const signupSchema = z.object({
 })
 
 const SignupPage = () => {
-  const methods = useForm({
+  const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
       firstName: '',
@@ -68,8 +68,8 @@ const SignupPage = () => {
   }
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
-      <Form {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmit)}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
           <Card className="w-[500px]">
             <CardHeader className="items-center justify-center">
               <CardTitle>Crie a sua conta</CardTitle>
@@ -77,7 +77,7 @@ const SignupPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
@@ -90,7 +90,7 @@ const SignupPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
@@ -103,7 +103,7 @@ const SignupPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -116,7 +116,7 @@ const SignupPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
@@ -129,7 +129,7 @@ const SignupPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="passwordConfirmation"
                 render={({ field }) => (
                   <FormItem>
@@ -145,7 +145,7 @@ const SignupPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="terms"
                 render={({ field }) => {
                   return (
@@ -159,12 +159,12 @@ const SignupPage = () => {
                       <div className="leading-none">
                         <label
                           htmlFor="terms"
-                          className={`text-xs text-muted-foreground opacity-75 ${methods.formState.errors.terms && 'text-red-500'}`}
+                          className={`text-xs text-muted-foreground opacity-75 ${form.formState.errors.terms && 'text-red-500'}`}
                         >
                           Ao clicar em &quot;Criar conta&quot;, voce aceita os{' '}
                           <a
                             href="#"
-                            className={`text-white underline ${methods.formState.errors.terms && 'text-red-500'}`}
+                            className={`text-white underline ${form.formState.errors.terms && 'text-red-500'}`}
                           >
                             nosso termo de uso e politica de privacidade
                           </a>
