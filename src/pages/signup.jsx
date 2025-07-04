@@ -1,6 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -23,6 +26,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import PasswordInput from '@/components/ui/password-input'
+import { api } from '@/lib/axios'
 
 const signupSchema = z.object({
   firstName: z.string().trim().min(1, {
@@ -52,6 +56,19 @@ const signupSchema = z.object({
 })
 
 const SignupPage = () => {
+  const [user, setUser] = useState(null)
+  const signUpMutation = useMutation({
+    mutationKey: ['signup'],
+    mutationFn: async (variables) => {
+      const response = await api.post('/users', {
+        first_name: variables.firstName,
+        last_name: variables.lastName,
+        email: variables.email,
+        password: variables.password,
+      })
+      return response.data
+    },
+  })
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -64,7 +81,23 @@ const SignupPage = () => {
     },
   })
   const handleSubmit = (data) => {
-    console.log(data)
+    signUpMutation.mutate(data, {
+      onSuccess: (createdUser) => {
+        const accessToken = createdUser.tokens.acessToken
+        const refreshToken = createdUser.tokens.refreshToken
+        setUser(createdUser)
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('refreshToken', refreshToken)
+        toast.success('Conta criada com sucesso!')
+      },
+      onError: (error) => {
+        console.error('Erro ao criar conta', error)
+        toast.error('Erro ao criar conta. Tente novamente mais tarde!')
+      },
+    })
+  }
+  if (user) {
+    return <h1>Olá, {user.first_name}</h1>
   }
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
