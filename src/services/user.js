@@ -38,4 +38,13 @@ export const UserService = {
       email: response.data.email,
     }
   },
+  getBalance: async (input) => {
+    const queryParams = new URLSearchParams()
+    queryParams.set('from', input.from)
+    queryParams.set('to', input.to)
+    const reseponse = await protectedApi.get(
+      `/users/me/balance?${queryParams.toString()}`
+    )
+    return reseponse.data
+  },
 }
