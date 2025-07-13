@@ -14,7 +14,7 @@ const BalanceItem = ({ label, icon, amount }) => {
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-          }).format({ amount })}
+          }).format(amount)}
         </h3>
       </CardContent>
     </Card>
