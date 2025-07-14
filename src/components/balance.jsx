@@ -22,6 +22,8 @@ const Balance = () => {
     queryFn: () => {
       return UserService.getBalance({ from, to })
     },
+    enabled: !!from && !!to,
+    retry: false,
   })
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-6">
