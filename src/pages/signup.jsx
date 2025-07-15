@@ -1,7 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router'
-import { z } from 'zod'
 
 import PasswordInput from '@/components/password-input'
 import { Button } from '@/components/ui/button'
@@ -24,58 +21,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/context/auth'
-
-const signupSchema = z
-  .object({
-    firstName: z.string().trim().min(1, {
-      message: 'O nome é obrigatório',
-    }),
-    lastName: z.string().trim().min(1, {
-      message: 'O sobrenome é obrigatório',
-    }),
-    email: z
-      .string()
-      .trim()
-      .min(1, {
-        message: 'O e-mail é obrigatório',
-      })
-      .email({
-        message: 'O email é inválido',
-      }),
-    password: z.string().trim().min(6, {
-      message: 'A senha precisa ter pelo menos 6 caracteres',
-    }),
-    passwordConfirmation: z.string().trim().min(6, {
-      message: 'A confirmação de senha é obrigatória',
-    }),
-    terms: z.boolean().refine((value) => value === true, {
-      message: 'Voce precisa aceitar os termos de uso',
-    }),
-  })
-  .refine(
-    (data) => {
-      return data.password === data.passwordConfirmation
-    },
-    {
-      message: 'As senhas precisam ser iguais',
-      path: ['passwordConfirmation'],
-    }
-  )
+import { useSignUpForm } from '@/forms/hooks/user'
 
 const SignupPage = () => {
   const { user, signup, isInitializing } = useAuthContext()
 
-  const form = useForm({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      terms: false,
-    },
-  })
+  const { form } = useSignUpForm()
 
   const handleSubmit = (data) => {
     signup(data)
