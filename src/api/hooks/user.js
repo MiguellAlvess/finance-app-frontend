@@ -4,6 +4,9 @@ import { UserService } from '@/api/services/user'
 import { useAuthContext } from '@/context/auth'
 
 export const getUserBalanceQueryKey = ({ from, to, userId }) => {
+  if (!from || !to) {
+    return ['balance', userId]
+  }
   return ['balance', userId, from, to]
 }
 
