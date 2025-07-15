@@ -33,23 +33,22 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState()
   const signUpMutation = useSignUp()
   const loginMutation = useLogin()
-  const login = (data) => {
-    loginMutation.mutate(data, {
-      onSuccess: (loggedUser) => {
-        setTokens(loggedUser.tokens)
-        setUser(loggedUser)
-        toast.success('Login realizado com sucesso!')
-      },
-      onError: (error) => {
-        console.error('Erro ao fazer login', error)
-        toast.error('Erro ao fazer login. Tente novamente mais tarde!')
-      },
-    })
+  const login = async (data) => {
+    try {
+      const loggedUser = await loginMutation.mutateAsync(data)
+      setTokens(loggedUser.tokens)
+      setUser(loggedUser)
+      toast.success('Login realizado com sucesso!')
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao fazer login. Tente novamente mais tarde!')
+    }
   }
   const signOut = () => {
     setUser(null)
     removeTokens()
   }
+
   useEffect(() => {
     const init = async () => {
       try {
