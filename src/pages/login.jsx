@@ -28,8 +28,8 @@ const LoginPage = () => {
 
   const { form } = useLoginForm()
 
-  const handleSubmit = (data) => {
-    login(data)
+  const handleSubmit = async (data) => {
+    await login(data)
   }
 
   if (isInitializing) return null
