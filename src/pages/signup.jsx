@@ -1,3 +1,4 @@
+import { Loader2Icon } from 'lucide-react'
 import { Link, Navigate } from 'react-router'
 
 import PasswordInput from '@/components/password-input'
@@ -28,8 +29,8 @@ const SignupPage = () => {
 
   const { form } = useSignUpForm()
 
-  const handleSubmit = (data) => {
-    signup(data)
+  const handleSubmit = async (data) => {
+    await signup(data)
   }
   if (isInitializing) return null
   if (user) return <Navigate to="/" />
@@ -143,7 +144,12 @@ const SignupPage = () => {
               />
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Criar conta</Button>
+              <Button className="w-full" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting && (
+                  <Loader2Icon className="animate-spin" />
+                )}
+                Criar conta
+              </Button>
             </CardFooter>
           </Card>
         </form>

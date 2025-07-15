@@ -31,24 +31,8 @@ const removeTokens = () => {
 export const AuthContextProvider = ({ children }) => {
   const [isInitializing, setIsInitializing] = useState(true)
   const [user, setUser] = useState()
-  const signUpMutation = useSignUp()
+  const signupMutation = useSignUp()
   const loginMutation = useLogin()
-  const login = async (data) => {
-    try {
-      const loggedUser = await loginMutation.mutateAsync(data)
-      setTokens(loggedUser.tokens)
-      setUser(loggedUser)
-      toast.success('Login realizado com sucesso!')
-    } catch (error) {
-      console.error(error)
-      toast.error('Erro ao fazer login. Tente novamente mais tarde!')
-    }
-  }
-  const signOut = () => {
-    setUser(null)
-    removeTokens()
-  }
-
   useEffect(() => {
     const init = async () => {
       try {
@@ -69,21 +53,35 @@ export const AuthContextProvider = ({ children }) => {
         setIsInitializing(false)
       }
     }
-
     init()
   }, [])
-  const signup = (data) => {
-    signUpMutation.mutate(data, {
-      onSuccess: (createdUser) => {
-        setUser(createdUser)
-        setTokens(createdUser.tokens)
-        toast.success('Conta criada com sucesso!')
-      },
-      onError: (error) => {
-        console.error('Erro ao criar conta', error)
-        toast.error('Erro ao criar conta. Tente novamente mais tarde!')
-      },
-    })
+  const login = async (data) => {
+    try {
+      const loggedUser = await loginMutation.mutateAsync(data)
+      setTokens(loggedUser.tokens)
+      setUser(loggedUser)
+      toast.success('Login realizado com sucesso!')
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao fazer login. Tente novamente mais tarde!')
+    }
+  }
+  const signup = async (data) => {
+    try {
+      const createdUser = await signupMutation.mutateAsync(data)
+      setUser(createdUser)
+      setTokens(createdUser.tokens)
+      toast.success('Conta criada com sucesso!')
+    } catch (error) {
+      console.error(error)
+      toast.error(
+        'Erro ao criar a conta. Por favor, tente novamente mais tarde.'
+      )
+    }
+  }
+  const signOut = () => {
+    setUser(null)
+    removeTokens()
   }
   return (
     <AuthContext.Provider
