@@ -37,7 +37,7 @@ Essa abordagem promove uma separação clara de responsabilidades, melhora a leg
 
 ## Inteface da aplicação
 
-A interface do FinanceApp foi construída com TailwindCSS para estilização e Lucide Icons para elementos visuais, enquanto Shadcn serviu como base para componentes UI (como formulários e tabelas), que foram customizados para atender às necessidades do projeto. O dashboard combina um design limpo com funcionalidades claras: saldo em destaque, gráficos simplificados e listagem de transações categorizadas.
+A interface do FinanceApp foi construída com TailwindCSS para estilização e Lucide Icons para elementos visuais, enquanto Shadcn serviu como base para componentes UI, que foram customizados para atender às necessidades do projeto. O dashboard combina um design limpo com funcionalidades claras: saldo em destaque, gráficos simplificados e listagem de transações categorizadas.
 
 <img src="https://github.com/user-attachments/assets/408e40d1-9829-4c07-99fb-7ee45ecfdafa" />
 
